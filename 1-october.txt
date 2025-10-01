@@ -1,0 +1,15 @@
+
+
+// 1518. Water Bottles
+int numWaterBottles(int numBottles, int numExchange) {
+        int sum=numBottles;
+        int empty=numBottles;
+
+        while(empty>=numExchange){
+            int divide=empty/numExchange;
+            sum+=divide;
+            empty=empty%numExchange+divide;
+        }
+
+        return sum;
+    }
