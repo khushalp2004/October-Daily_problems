@@ -1,6 +1,7 @@
 
 
 //11. Container With Most Water
+//get maximum and min and find the volume of it
 int maxArea(vector<int>& height) {
         int n=height.size();
         int ans=0;
