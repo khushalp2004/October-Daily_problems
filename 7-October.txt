@@ -1,0 +1,27 @@
+///1488. Avoid Flood in The City
+vector<int> avoidFlood(vector<int>& rains) {
+        int n=rains.size();
+        unordered_map<int,int> full;///last rain
+        set<int> dryDays;   ///available days
+        vector<int> result(n, 1);
+
+        for(int i=0;i<n;i++){
+            int lake=rains[i];
+            if(lake>0){
+                if(full.count(lake)){
+                    //lake is full , need to find the dry day
+                    auto it=dryDays.lower_bound(full[lake]);
+                    if(it==dryDays.end()){
+                        return {};
+                    }
+                    result[*it]=lake;
+                    dryDays.erase(it);
+                }
+                full[lake]=i;
+                result[i]=-1;
+            }else{
+                dryDays.insert(i);
+            }
+        }
+        return result;
+    }
