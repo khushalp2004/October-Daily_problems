@@ -1,4 +1,6 @@
 ///1488. Avoid Flood in The City
+////using map to store last rained
+////then use result vector to store 
 vector<int> avoidFlood(vector<int>& rains) {
         int n=rains.size();
         unordered_map<int,int> full;///last rain
