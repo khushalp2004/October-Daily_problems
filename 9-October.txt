@@ -1,5 +1,4 @@
 
-
 ////3494. Find the Minimum Amount of Time to Brew Potions
 long long minTime(vector<int>& skill, vector<int>& mana) {
         int n = skill.size(), m = mana.size();
