@@ -99,3 +99,44 @@ typedef long long ll;
 
         return solve(nums,0);
     }
+
+///method-3
+//bottom-up
+typedef long long ll;
+
+    long long maximumTotalDamage(vector<int>& power) {
+        unordered_map<ll,ll> mp;
+
+        for(int &x: power){
+            mp[x]++;
+        }
+
+        vector<ll> nums(mp.size());
+
+        for(auto &it: mp){
+            nums.push_back(it.first);
+        }
+
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+
+        vector<ll> dp(n,0);
+
+        ll result=INT_MIN;
+
+        for(int i=n-1;i>=0;i--){
+            // ll skip=dp[i+1];////this is dangerous (out of bound)
+            ll skip=(i+1 < n) ? dp[i+1] : 0;
+
+            int j=lower_bound(nums.begin()+i+1,nums.end(),nums[i]+3)-nums.begin();
+
+            // ll take=nums[i]*mp[nums[i]]+dp[j];////also dp[j] will cause j out of bound
+            ll take=nums[i]*mp[nums[i]]+ ((j<n) ? dp[j] : 0);
+
+            dp[i]=max(skip,take);
+
+            result=max(result,dp[i]);
+        }
+
+        return result;
+    }
