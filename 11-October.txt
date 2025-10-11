@@ -47,4 +47,55 @@ typedef long long ll;
         return solve(nums,0);
     }
 
- 
+  ///method-2 
+  //using memoization
+
+  typedef long long ll;
+    unordered_map<int,int> mp;
+    vector<ll> dp;
+    int n;
+
+    ll solve(vector<ll> &nums,int i){
+        if(i>=n){
+            return 0;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        //skip
+        ll skip=solve(nums,i+1);
+
+        //take
+        ll j=lower_bound(nums.begin()+i+1, nums.end(), nums[i]+3)-nums.begin();
+
+        ll take=nums[i]*mp[nums[i]]+solve(nums,j);
+
+        return dp[i]=max(skip,take);
+    }
+
+    long long maximumTotalDamage(vector<int>& power) {
+        ///greedy fails here
+        ////sorting this into descending order and then choose the greater value but it is not efficient, it fails in some cases
+
+
+        //but using ascending order sorting the power
+        ///track the right most element which is the biggest and then keep searching for the element greater than it and add it 
+        
+        
+        for(int &x: power){
+            mp[x]++;
+        }
+
+        vector<ll> nums(mp.size());
+
+        for(auto &it: mp){
+            nums.push_back(it.first);
+        }
+
+        sort(nums.begin(),nums.end());
+        n=nums.size();
+
+        dp.assign(n+1,-1);
+
+        return solve(nums,0);
+    }
