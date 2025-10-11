@@ -1,0 +1,50 @@
+
+///3186. Maximum Total Damage With Spell Casting
+//greedy fails here
+///method-1: will cause tle
+typedef long long ll;
+    unordered_map<int,int> mp;
+    
+    int n;
+
+    ll solve(vector<ll> &nums,int i){
+        if(i>=n){
+            return 0;
+        }
+        //skip
+        ll skip=solve(nums,i+1);
+
+        //take
+        ll j=lower_bound(nums.begin()+i+1, nums.end(), nums[i]+3)-nums.begin();
+
+        ll take=nums[i]*mp[nums[i]]+solve(nums,j);
+
+        return max(skip,take);
+    }
+
+    long long maximumTotalDamage(vector<int>& power) {
+        ///greedy fails here
+        ////sorting this into descending order and then choose the greater value but it is not efficient, it fails in some cases
+
+
+        //but using ascending order sorting the power
+        ///track the right most element which is the biggest and then keep searching for the element greater than it and add it 
+        
+        
+        for(int &x: power){
+            mp[x]++;
+        }
+
+        vector<ll> nums(mp.size());
+
+        for(auto &it: mp){
+            nums.push_back(it.first);
+        }
+
+        sort(nums.begin(),nums.end());
+        n=nums.size();
+
+        return solve(nums,0);
+    }
+
+ 
