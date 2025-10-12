@@ -1,0 +1,46 @@
+
+///3539. Find Sum of Array Product of Magical Sequences
+//this is brute force solution
+
+typedef long long ll;
+
+    ll MOD=1000000007;
+    int magicalSum(int m, int k, vector<int>& nums) {
+        vector<vector<int>> all;
+        vector<int> current;
+        int n=nums.size();
+
+        generateSeq(m, n, all, current);
+        ll total=0;
+
+        for(auto &seq: all){
+            ll sum=0;
+            for(int index: seq){
+                sum+=(1LL<<index);
+            }
+
+            if(__builtin_popcountll(sum)==k){
+                ll product=1;
+                for(int index: seq){
+                    product=(product*nums[index])%MOD;
+                }
+
+                total=(total+product)%MOD;
+            }
+        }
+
+        return (int) total;
+    }
+private:
+    void generateSeq(int m, int n, vector<vector<int>> &all, vector<int> &current){
+        if((int)current.size()==m){
+            all.push_back(current);
+            return ;
+        }
+
+        for(int i=0;i<n;i++){
+            current.push_back(i);
+            generateSeq(m,n,all,current);
+            current.pop_back();
+        }
+    }
