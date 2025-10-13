@@ -1,0 +1,22 @@
+
+2273. Find Resultant Array After Removing Anagrams
+///sort it and check prev string is same or not
+///store not same in result vector
+///then return the result vector
+
+vector<string> removeAnagrams(vector<string>& words) {
+        int n=words.size();
+        vector<string> result;
+        string prev="";
+
+        for(auto &word: words){
+            string sortedWords=word;
+            sort(sortedWords.begin(),sortedWords.end());
+
+            if(sortedWords!=prev){
+                result.push_back(word);
+                prev=sortedWords;
+            }
+        }
+        return result;
+    }
