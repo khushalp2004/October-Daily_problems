@@ -1,0 +1,22 @@
+
+///2598. Smallest Missing Non-negative Integer After Operations
+int findSmallestInteger(vector<int>& nums, int value) {
+        int n=nums.size();
+        unordered_map<int,int> count;
+        count.reserve(min((int)nums.size(),max(1,value))*2);
+
+        for(int num: nums){
+            int r=((num%value)+value)%value;
+            count[r]++;
+        }
+
+        for(int i=0;i<=n;i++){
+            int r=i%value;
+            if(count[r]==0){
+                return i;
+            }
+            count[r]--;
+        }
+
+        return n;
+    }
