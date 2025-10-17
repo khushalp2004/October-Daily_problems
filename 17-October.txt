@@ -1,0 +1,48 @@
+/////3003. Maximize the Number of Partitions After Operations
+
+typedef long long ll;
+public:
+    int dfs(const string& s, int i, int mask, bool canChange, int k,
+            unordered_map<ll, int>& memo) {
+        if (i == s.size()) {
+            return 0;
+        }
+
+        ll key = ((ll)i << 27) | ((canChange ? 1LL : 0LL) << 26) | mask;
+
+        if (memo.count(key)) {
+            return memo[key];
+        }
+
+        int bit = 1 << (s[i] - 'a');
+        int best = 0;
+
+        int newMask = mask | bit;
+
+        if (__builtin_popcount(newMask) > k) {
+            best = max(best, 1 + dfs(s, i + 1, bit, canChange, k, memo));
+        } else {
+            best = max(best, dfs(s, i + 1, newMask, canChange, k, memo));
+        }
+
+        if (canChange) {
+            for (int c = 0; c < 26; c++) { 
+                int newBit = 1 << c;
+                if (newBit == bit)
+                    continue;
+
+                int newMask2 = mask | newBit;
+                if (__builtin_popcount(newMask2) > k)
+                    best = max(best, 1 + dfs(s, i + 1, newBit, false, k, memo));
+                else
+                    best = max(best, dfs(s, i + 1, newMask2, false, k, memo));
+            }
+        }
+
+        return memo[key] = best;
+    }
+    int maxPartitionsAfterOperations(string s, int k) {
+        int n = s.size();
+        unordered_map<ll, int> memo;
+        return 1 + dfs(s, 0, 0, true, k, memo); ////extra partition (+1)
+    }
