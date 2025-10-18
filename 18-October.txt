@@ -1,0 +1,31 @@
+
+////3397. Maximum Number of Distinct Elements After Operations
+//method-1
+
+//this is the brute force approach
+
+int maxDistinctElements(vector<int>& nums, int k) {
+        int n=nums.size();
+        int maxDistinct=0;
+
+        vector<int> choices(2*k+1);
+        iota(choices.begin(),choices.end(),-k);
+
+        function<void(int, vector<int> &)> dfs=[&](int i, vector<int> &arr){
+            if(i==n){
+                unordered_set<int> st(arr.begin(),arr.end());
+                maxDistinct=max(maxDistinct,(int)st.size());
+                return;
+            }
+
+            for(int delta=-k;delta<=k;delta++){
+                arr[i]=nums[i]+delta;
+                dfs(i+1,arr);
+            }
+        };
+
+        vector<int> temp(n);
+        dfs(0,temp);
+
+        return maxDistinct;
+    }
