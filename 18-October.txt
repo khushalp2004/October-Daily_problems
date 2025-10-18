@@ -29,3 +29,23 @@ int maxDistinctElements(vector<int>& nums, int k) {
 
         return maxDistinct;
     }
+
+
+/////method-2
+typedef long long ll;
+    int maxDistinctElements(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        ll prev=LLONG_MIN;
+        int ans=0;
+
+        for(ll x:nums){
+            ll low=x-k;
+            ll high=x+k;
+            if(prev<high){
+                ll assigned=max(prev+1,low);
+                prev=assigned;
+                ans++;
+            }
+        }
+        return ans;
+    }
