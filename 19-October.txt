@@ -1,0 +1,50 @@
+//1625. Lexicographically Smallest String After Applying Operations
+//method-1: using queue
+///add a op 
+///rotate by b op
+
+int n;
+    string addOp(string s, int a){
+        for(int i=1;i<=n;i+=2){
+            s[i]=(s[i]-'0'+a)%10+'0';////this is the add operation adding a is the main step
+        }
+        return s;
+    }
+
+    string rotateOp(string s,int b){
+        return s.substr(n-b)+s.substr(0,n-b);
+    }
+
+    string findLexSmallestString(string s, int a, int b) {
+        n=s.size();
+        ///brute force approach queue can be used
+        queue<string> que;
+        unordered_set<string> visited;
+
+        string ans=s;
+        que.push(s);
+        visited.insert(s);
+
+        while(!que.empty()){
+            string curr=que.front();
+            que.pop();
+
+            ans=min(ans,curr);
+
+            //// add a to indices
+            string added=addOp(curr,a);
+            if(!visited.count(added)){
+                visited.insert(added);
+                que.push(added);
+            }
+
+            ////rotate right by b steps;
+            string rotated=rotateOp(curr,b);
+            if(!visited.count(rotated)){
+                visited.insert(rotated);
+                que.push(rotated);
+            }
+        }
+
+        return ans;
+    }
