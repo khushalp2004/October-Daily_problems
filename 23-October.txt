@@ -1,0 +1,21 @@
+
+
+///3347. Maximum Frequency of an Element After Performing Operations II
+bool hasSameDigits(string s) {
+        int n=s.size();
+        while(n>2){
+            string temp="";
+            for(int i=1;i<n;i++){
+                int sum=(s[i]-'0'+s[i-1]-'0');
+                temp+=(char)('0'+(sum%10));
+            }
+            s=temp;
+            n=s.size();
+        }
+        
+        if(s[0]==s[1]){
+            return true;
+        }
+
+        return false;
+    }
