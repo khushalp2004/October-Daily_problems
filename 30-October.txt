@@ -1,0 +1,11 @@
+///1526. Minimum Number of Increments on Subarrays to Form a Target Array
+
+int minNumberOperations(vector<int>& target) {
+         int sum = target[0]; 
+        for (int i = 1; i < target.size(); i++) {
+            if (target[i] > target[i - 1]) {
+                sum += target[i] - target[i - 1];
+            }
+        }
+        return sum;
+    }
